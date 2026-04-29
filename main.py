@@ -1,3 +1,4 @@
+import random
 
 class Character:
     def __init__(self, name, health, attack_power):
@@ -8,8 +9,15 @@ class Character:
     def is_alive(self):
         return self.health > 0
     
+
     def attack(self, target):
         damage = random.randint(5, self.attack_power)
+        
+        # 20% chance for critical hit
+        if random.random() <0.2:
+            damage *= 2
+            print("💥 Critical Hit!")
+            
         target.health -= damage
         print(f"{self.name} attacks {target.name} for {damage} damage!")
         
@@ -71,6 +79,6 @@ def main():
     elif enemy.is_alive() and not player.is_alive():
         print("\n 💀 You were defeated.")
         
-import random
+
         
 main()
