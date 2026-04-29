@@ -11,7 +11,7 @@ class Character:
     
 
     def attack(self, target):
-        damage = random.randint(5, self.attack_power)
+        damage = random.randint(max(1, self.attack_power - 5), self.attack_power)
         
         # 20% chance for critical hit
         if random.random() <0.2:
@@ -28,7 +28,7 @@ class Player(Character):
     
     def use_potion(self):
         if self.potions > 0:
-            self.health += 20
+            self.health = min(self.health + 20, 100)
             self.potions -= 1
             print(f"{self.name} uses a potion and heals 20 HP!")
         else:
