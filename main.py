@@ -37,7 +37,14 @@ class Player(Character):
 def main():
     player_name = input("Enter your character name: ")
     player = Player(player_name, 100,15)
-    enemy = Character("Goblin", 60, 10)
+    #enemy = Character("Goblin", 60, 10)
+    enemies = [
+        Character("Goblin", 60, 10),
+        Character("Orc", 80, 12),
+        Character("Skeleton", 50, 8)
+    ]
+    
+    enemy = random.choice(enemies)
     
     
     print(f"\n Welcome to RPG Battle Game {player_name}!")
