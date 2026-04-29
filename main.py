@@ -25,6 +25,8 @@ class Player(Character):
     def __init__(self, name, health, attack_power):
         super().__init__(name, health, attack_power)
         self.potions = 3
+        self.level = 1
+        self.experience = 0
     
     def use_potion(self):
         if self.potions > 0:
@@ -33,6 +35,21 @@ class Player(Character):
             print(f"{self.name} uses a potion and heals 20 HP!")
         else:
             print("No potions left!")
+            
+    def gain_experience(self, amount):
+        self.experience += amount
+        print(f"{self.name} gained {amount} XP!")
+        
+        if self.experience >= 10:
+            self.level += 1
+            self.experience = 0
+            self.attack_power += 2
+            self.health = min(self.health + 10, 100)
+            print(f"\n ")
+            print (f"🌟 Level up! {self.name} is now level {self.level}!")
+            print(f"\n ")
+        
+        
         
 def main():
     player_name = input("Enter your character name: ")
@@ -83,6 +100,7 @@ def main():
     
     if player.is_alive() and not enemy.is_alive():
         print("\n 🎉 You defeated the enemy!")
+        player.gain_experience(10)
     elif enemy.is_alive() and not player.is_alive():
         print("\n 💀 You were defeated.")
         
