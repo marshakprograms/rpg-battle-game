@@ -9,8 +9,9 @@ class Character:
         return self.health > 0
     
     def attack(self, target):
-        target.health -= self.attack_power
-        print(f"{self.name} attacks {target.name} for {self.attack_power} damage!")
+        damage = random.randint(5, self.attack_power)
+        target.health -= damage
+        print(f"{self.name} attacks {target.name} for {damage} damage!")
         
 class Player(Character):
     def __init__(self, name, health, attack_power):
@@ -69,5 +70,7 @@ def main():
         print("\n 🎉 You defeated the enemy!")
     elif enemy.is_alive() and not player.is_alive():
         print("\n 💀 You were defeated.")
+        
+import random
         
 main()
