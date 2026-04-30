@@ -26,7 +26,9 @@ class Player(Character):
         super().__init__(name, health, attack_power)
         self.potions = 3
         self.level = 1
-        self.experience = 0
+        #self.experience = 0
+        self.enemies_defeated = 0
+        self.enemies_needed_to_level = 3
     
     def use_potion(self):
         if self.potions > 0:
@@ -36,18 +38,29 @@ class Player(Character):
         else:
             print("No potions left!")
             
-    def gain_experience(self, amount):
-        self.experience += amount
-        print(f"{self.name} gained {amount} XP!")
+    # def gain_experience(self, amount):
+    #     self.experience += amount
+    #     print(f"{self.name} gained {amount} XP!")
         
-        if self.experience >= 10:
+    #     if self.experience >= 10:
+    #         self.level += 1
+    #         self.experience = 0
+    #         self.attack_power += 2
+    #         self.health = min(self.health + 10, 100)
+    #         print(f"\n ")
+    #         print (f"🌟 Level up! {self.name} is now level {self.level}!")
+    #         print(f"\n ")
+    
+    def enemy_defeat_record(self):
+        self.enemies_defeated += 1
+        print(f"{self.name} has now defeated {self.enemies_defeated} enemies!")
+        
+        if self.enemies_defeated >= self.enemies_needed_to_level:
             self.level += 1
-            self.experience = 0
+            self.enemies_defeated = 0
             self.attack_power += 2
             self.health = min(self.health + 10, 100)
-            print(f"\n ")
             print (f"🌟 Level up! {self.name} is now level {self.level}!")
-            print(f"\n ")
         
         
         
@@ -56,9 +69,9 @@ def main():
     player = Player(player_name, 100,15)
     
     enemies = [
-        Character("Goblin", 60, 10),
-        Character("Orc", 80, 12),
-        Character("Skeleton", 50, 8)
+        ("Goblin", 60, 10),
+        ("Orc", 80, 12),
+        ("Skeleton", 50, 8)
     ]
     
     # enemy = random.choice(enemies)
@@ -72,7 +85,8 @@ def main():
     #OUTER LOOP
     
     while player.is_alive():
-        enemy = random.choice(enemies)
+        enemy_name, enemy_health, enemy_attack = random.choice(enemies)
+        enemy = Character(enemy_name, enemy_health, enemy_attack)
         print(f"\n A wild {enemy.name} appears!")
         print(f"BATTLE: {player.name} VS {enemy.name}")
     
@@ -108,7 +122,7 @@ def main():
         
         if player.is_alive() and not enemy.is_alive():
             print(f"\n 🎉 You defeated the {enemy.name}!")
-            player.gain_experience(10)
+            player.enemy_defeat_record()
             
             continue_choice = input("More enemies have arrived! Continue to fight? (y/n): ").lower()
             
