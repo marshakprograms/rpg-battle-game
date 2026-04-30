@@ -54,56 +54,70 @@ class Player(Character):
 def main():
     player_name = input("Enter your character name: ")
     player = Player(player_name, 100,15)
-    #enemy = Character("Goblin", 60, 10)
+    
     enemies = [
         Character("Goblin", 60, 10),
         Character("Orc", 80, 12),
         Character("Skeleton", 50, 8)
     ]
     
-    enemy = random.choice(enemies)
+    # enemy = random.choice(enemies)
+    # print(f"\n A wild {enemy.name} appears!")
     
     
     print(f"\n Welcome to RPG Battle Game {player_name}!")
     print(f"\n ")
-    print(f"{player.name} vs {enemy.name}")
+    #print(f"{player.name} vs {enemy.name}")
     
-    while player.is_alive() and enemy.is_alive():
-        print("\nWhat would you like to do? Choose an action:")
-        print("1. Attack")
-        print("2. Use Potion")
-        print("3. Quit")
-        
-        choice = input("Choose an option: ")
-        
-        print(f"\n ")
-        
-        if choice == "1":
-            player.attack(enemy)
+    #OUTER LOOP
+    
+    while player.is_alive():
+        enemy = random.choice(enemies)
+        print(f"\n A wild {enemy.name} appears!")
+        print(f"BATTLE: {player.name} VS {enemy.name}")
+    
+        while player.is_alive() and enemy.is_alive():
+            print("\nWhat would you like to do? Choose an action:")
+            print("1. Attack")
+            print("2. Use Potion")
+            print("3. Quit")
             
-        elif choice == "2":
-            player.use_potion()         
+            choice = input("Choose an option: ")
+            
+            print(f"\n ")
+            
+            if choice == "1":
+                player.attack(enemy)
+                
+            elif choice == "2":
+                player.use_potion()         
+            
+            elif choice == "3":
+                print("Fear consumes you!  You retreat, hide and quit!")
+                return
+            
+            else:
+                print("Invalid choice. Try again. 1, 2 or 3")
+                continue
+            
+            if enemy.is_alive():
+                enemy.attack(player)
+                
+            print(f"\n{player.name} Health: {player.health} | Potions:{player.potions}")
+            print(f"\n{enemy.name} Health: {enemy.health}")
         
-        elif choice == "3":
-            print("You quit the game.")
+        if player.is_alive() and not enemy.is_alive():
+            print(f"\n 🎉 You defeated the {enemy.name}!")
+            player.gain_experience(10)
+            
+            continue_choice = input("More enemies have arrived! Continue to fight? (y/n): ").lower()
+            
+            if continue_choice != "y":
+                print("You will fight again some other day")
+                break
+        
+        elif enemy.is_alive() and not player.is_alive():
+            print("\n💀 You were defeated.")
             break
-        
-        else:
-            print("Invalid choice. Try again. 1, 2 or 3")
-            continue
-        
-        if enemy.is_alive():
-            enemy.attack(player)
-            
-        print(f"\n{player.name} Health: {player.health} | Potions:{player.potions}")
-        print(f"\n{enemy.name} Health: {enemy.health}")
-    
-    if player.is_alive() and not enemy.is_alive():
-        print("\n 🎉 You defeated the enemy!")
-        player.gain_experience(10)
-    elif enemy.is_alive() and not player.is_alive():
-        print("\n 💀 You were defeated.")
-        
-
         
 main()
